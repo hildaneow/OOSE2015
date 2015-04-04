@@ -27,7 +27,6 @@ public class SimpleSlickGame extends BasicGame
 		float height = 10f;
 		playerBar = new PlayerBar((maxWidth -  width)/2, maxHeight-100, width, height);
 		playerBar.setHorizontalLimit(maxWidth);
-		
 	}
 
 	@Override
