@@ -1,9 +1,10 @@
 
 
+public class Ball extends GameObject {
 
-public class Ball {
-	int posX;
-	int posY;
-	int Width;
-	int Height;
+	public Ball(int x, int y, int width, int height) {
+		super(x, y, width, height);
+		// TODO Auto-generated constructor stub
+	}
+
 }
