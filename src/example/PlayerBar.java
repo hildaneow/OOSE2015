@@ -1,8 +1,9 @@
 package example;
 
 import org.newdawn.slick.geom.Rectangle;
+import org.newdawn.slick.geom.Vector2f;
 
-public class PlayerBar extends Rectangle {
+public class PlayerBar extends Rectangle implements ICollidableObject {
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -34,6 +35,16 @@ public class PlayerBar extends Rectangle {
 	private void updatePosition(float x, float offset){
 		float newCenter = Math.min(Math.max((x+offset), this.halfWidth), this.limit-this.halfWidth);
 		setCenterX(newCenter);
+	}
+
+	public Vector2f getBounceDirection(Ball ball) {
+		Vector2f direction = ball.getDirection();
+		if (ball.getMinX() < this.getMinX() || ball.getMaxX() > this.getMaxX()) {
+			direction.x = -direction.x;
+		} else {
+			direction.y = -direction.y;
+		}
+		return direction;
 	}
 
 }

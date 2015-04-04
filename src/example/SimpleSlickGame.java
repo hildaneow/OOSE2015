@@ -49,10 +49,14 @@ public class SimpleSlickGame extends BasicGame
 	}
 	
 	private void updateBallPosition(int delta) {
-		for (Wall w : walls) {
-			if (w.intersects(ball)){
-				ball.collide(w);
-				break;
+		if (playerBar.intersects(ball)) {
+			ball.collide(playerBar);
+		} else {
+			for (Wall w : walls) {
+				if (w.intersects(ball)){
+					ball.collide(w);
+					break;
+				}
 			}
 		}
 		ball.updatePosition(delta);
