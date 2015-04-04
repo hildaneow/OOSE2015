@@ -1,4 +1,6 @@
 package example;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -15,6 +17,8 @@ public class SimpleSlickGame extends BasicGame
 	private static int maxWidth = 640;
 	private static int maxHeight = 480;
 	private PlayerBar playerBar;
+	private Ball ball;
+	private List<Wall> walls;
 
 	public SimpleSlickGame(String gamename)
 	{
@@ -23,12 +27,21 @@ public class SimpleSlickGame extends BasicGame
 
 	@Override
 	public void init(GameContainer gc) throws SlickException {
-		float width = 50f;
-		float height = 10f;
+		float width = 70f;
+		float height = 20f;
 		playerBar = new PlayerBar((maxWidth -  width)/2, maxHeight-100, width, height);
 		playerBar.setHorizontalLimit(maxWidth);
+		
+		float ballRadius = 10f;
+		ball = new Ball((maxWidth -  ballRadius)/2, maxHeight-200, ballRadius);
+		
+		walls = new ArrayList<Wall>();
+		walls.add(new Wall(0f, 0f, 1f, maxHeight)); // left
+		walls.add(new Wall(maxWidth, 0f, 1f, maxHeight)); // right
+		walls.add(new Wall(0f, 0f, maxWidth, 1f)); // top
+		walls.add(new Wall(0f, maxHeight, maxWidth, 1f)); // bottom
 	}
-
+	
 	@Override
 	public void update(GameContainer gc, int delta) throws SlickException {
 		applyPlayerInput(gc, delta);
@@ -36,9 +49,13 @@ public class SimpleSlickGame extends BasicGame
 	}
 	
 	private void updateBallPosition(int delta) {
-		// check if ball intersects with anything
-		// if ball has hit anything, change direction
-		// update position based on movement vector and delta
+		for (Wall w : walls) {
+			if (w.intersects(ball)){
+				ball.collide(w);
+				break;
+			}
+		}
+		ball.updatePosition(delta);
 	}
 	
 	private void applyPlayerInput(GameContainer gc, int delta) {
@@ -54,6 +71,7 @@ public class SimpleSlickGame extends BasicGame
 	public void render(GameContainer gc, Graphics g) throws SlickException
 	{
 		g.draw(playerBar);
+		g.draw(ball);
 		System.out.println("Rendering" + playerBar.getX());
 	}
 	
