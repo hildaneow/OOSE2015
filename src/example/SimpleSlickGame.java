@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.awt.image.BufferStrategy;
@@ -32,9 +33,14 @@ public class SimpleSlickGame extends BasicGame
 	private int lives;
 	private int score;
 	private GameGUI GUI;
-	
 	private List<PowerUp> PU;
 
+	public float width = 70f;
+	public float height = 20f;
+	
+	float downTime = 4;
+	boolean downT = false;
+	
 	public SimpleSlickGame(String gamename)
 	{
 		super(gamename);
@@ -44,8 +50,7 @@ public class SimpleSlickGame extends BasicGame
 
 	@Override
 	public void init(GameContainer gc) throws SlickException {
-		float width = 70f;
-		float height = 20f;
+
 		playerBar = new PlayerBar((maxWidth -  width)/2, maxHeight-100, width, height);
 		playerBar.setHorizontalLimit(maxWidth);
 		
@@ -69,49 +74,76 @@ public class SimpleSlickGame extends BasicGame
 		walls.add(new Wall(maxWidth, 0f, 1f, maxHeight)); // right
 		walls.add(new Wall(0f, 0f, maxWidth, 1f)); // top
 		walls.add(new Wall(0f, maxHeight, maxWidth, 1f)); // bottom
-		
-		
-		
-		
 	}
 	
 	@Override
 	public void update(GameContainer gc, int delta) throws SlickException {
+		//playerBar.barSize(width);
 		applyPlayerInput(gc, delta);
 		updateBallPosition(delta);
 		lives = GUI.gameLives(4);
 		score = GUI.gameScore();
-		//brickCollision();
 	}
 	
 	private void updateBallPosition(int delta) {
 		if (playerBar.intersects(ball)) {
 			ball.collide(playerBar);
 		}
-		
 		else {
 			for (Wall w : walls) {
 				if (w.intersects(ball)){
-					System.out.println("hit wall");
+					//System.out.println("hit wall");
 					ball.collide(w);
 					break;
 				}
 			}
 		}
-		
-		
+		//Remove brick, bounce ball and spawn powerup on ball-brick collision:
 		for (Iterator<Bricks> it = brick.iterator(); it.hasNext(); ) {
 		    Bricks b = it.next();
 		    if (b.intersects(ball)) {
+		        Random rand = new Random();
+		        //how often should PowerUps occur:
+		        int randomNum = rand.nextInt(3);
+		    	if(randomNum == 1){
+		    		//Spawn PowerUp at the position of the destroyed brick:
+			    	int brickX;
+			    	int brickY;
+			    	brickX = b.PositionOfBrickX();
+			    	brickY = b.PositionOfBrickY();
+			    	PU.add(new PowerUp(brickX+25,brickY,5));
+		    	}
 		    	ball.collide(b);
-		    	PU.add(new PowerUp(300,10,5));
-		    	//((PowerUp) PU).updatePosition(delta);
 		        it.remove();
 		        break;
 		    }
 		}
-		//PU.updatePosition(delta); //this should be somewhere else i suppose
+		
+		//remove PowerUp when it hits playerbar:
+		for (Iterator<PowerUp> it = PU.iterator(); it.hasNext(); ) {
+		    PowerUp p = it.next();
+		    if (p.intersects(playerBar)) {
+		    	downT=true;
+		        width = p.shortenBar(width);
+		        it.remove();
+		        break;
+		    }
+		}
+//Make the playerbar normalsize after x time (sek now) this should be moved!
+		if(downT == true){
+			downTime-=delta;
+		}
+		if(downTime < -8000){
+			width = 70;
+			downTime = 4;
+			downT=false;
+		}
+		//update the position of objects if no intersection is detected:
+		playerBar.setWidth(width);
 		ball.updatePosition(delta);
+		for(PowerUp p : PU){
+			p.updatePosition(delta);
+		}	
 	}
 	
 	private void applyPlayerInput(GameContainer gc, int delta) {

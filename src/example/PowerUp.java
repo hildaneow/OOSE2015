@@ -20,6 +20,18 @@ public class PowerUp extends Circle{
 		setCenterY(y + this.velocity*this.direction.y*delta);
 	}
 	
+	public float normalBar(float width){
+		return width;
+	}
+	
+	public float extendBar(float width){
+		width*=2;
+		return width;
+	}
+	public float shortenBar(float width){		
+		width*=0.5;
+		return width;
+	}
 	
 	
 }

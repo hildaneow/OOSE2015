@@ -28,10 +28,16 @@ public class Bricks extends Rectangle implements ICollidableObject{
 		return direction;
 	}
 	
-	//public int PositionOfBrick(){
-		//return x;
-	//}
-	
+	public int PositionOfBrickX(){
+		int xX;
+		xX = (int) this.x;
+		return xX;
+	}
+	public int PositionOfBrickY(){
+		int yY;
+		yY = (int) this.y;
+		return yY;
+	}
 	
 
 }
