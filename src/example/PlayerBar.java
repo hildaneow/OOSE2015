@@ -33,7 +33,7 @@ public class PlayerBar extends Rectangle implements ICollidableObject {
 	}
 	
 	private void updatePosition(float x, float offset){
-		float newCenter = Math.min(Math.max((x+offset), this.halfWidth), this.limit-this.halfWidth);
+		float newCenter = Math.min(Math.max((x+offset), this.halfWidth), this.limit-this.halfWidth); // how does this work
 		setCenterX(newCenter);
 	}
 

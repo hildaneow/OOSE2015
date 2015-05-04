@@ -12,7 +12,7 @@ public class Ball extends Circle {
 
 	public Ball(float centerPointX, float centerPointY, float radius) {
 		super(centerPointX, centerPointY, radius);
-		direction = new Vector2f(-5f, -9f);
+		direction = new Vector2f(-5f, -9f); //this should not be the same everytime
 	}
 	
 	
