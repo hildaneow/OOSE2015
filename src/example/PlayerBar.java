@@ -19,21 +19,6 @@ public class PlayerBar extends Rectangle implements ICollidableObject {
 		dwidth = width;
 	}
 	
-//	public void barSize(float width){
-//		
-//	}
-/*	
-	public void barSize(int delta) {
-		float offset = delta * this.velocity;
-		updatePosition(getCenterX(), offset);
-	}
-	private void updatePosition(float x, float offset){
-		float newCenter = Math.min(Math.max((x+offset), this.halfWidth), this.limit-this.halfWidth); // how does this work
-		setCenterX(newCenter);
-	}
-	
-*/	
-
 	public void moveLeft(int delta) {
 		float offset = -delta * this.velocity;
 		updatePosition(getCenterX(), offset);
@@ -62,5 +47,26 @@ public class PlayerBar extends Rectangle implements ICollidableObject {
 		}
 		return direction;
 	}
+	
+	public static float extendBar(int delta, int buffTime){
+		SimpleSlickGame.bufferTime += delta;
+		if(SimpleSlickGame.bufferTime < buffTime){
+			return 140;
+		}
+		SimpleSlickGame.bufferTime = 0;
+		return 70;
+	}
+	
+	public static float SmallerBar(int delta, int buffTime){
+		SimpleSlickGame.bufferTime += delta;
+		if(SimpleSlickGame.bufferTime < buffTime){
+			return 35;
+		}
+		SimpleSlickGame.bufferTime = 0;
+		return 70;
+	}
+	
+	
+	
 
 }
