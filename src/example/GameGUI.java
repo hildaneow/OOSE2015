@@ -9,7 +9,7 @@ public class GameGUI {
 		
 	public int score = 19;
 	//public int score = 0;
-	//public int lives = 3;
+	public static int lives = 3;
 	
 	
 	public int gameLives(int startlives){	

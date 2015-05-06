@@ -30,7 +30,7 @@ public class SimpleSlickGame extends BasicGame
 	private PlayerBar playerBar;
 	private List<Wall> walls;
 	private List<Bricks> brick;
-	private int lives;
+	private int lives = 4;
 	private int score;
 	private GameGUI GUI;
 	
@@ -55,7 +55,9 @@ public class SimpleSlickGame extends BasicGame
 	public float height = 20f;
 	
 	float downTime = 4;
-	int downT = 0;
+	static int downT = 0;
+	
+	private Wall buttomLine;
 	
 	
 	
@@ -80,6 +82,8 @@ public class SimpleSlickGame extends BasicGame
 		
 		GUI = new GameGUI();
 		
+		buttomLine = new Wall(0f, maxHeight, maxWidth, 1f);
+		
 		brick =new ArrayList<Bricks>();
 		for(int i = 50; i<maxWidth -50; i+=50){
 			for(int y=50; y < 200; y+=20){
@@ -96,17 +100,19 @@ public class SimpleSlickGame extends BasicGame
 		walls.add(new Wall(0f, 0f, 1f, maxHeight)); // left
 		walls.add(new Wall(maxWidth, 0f, 1f, maxHeight)); // right
 		walls.add(new Wall(0f, 0f, maxWidth, 1f)); // top
-		walls.add(new Wall(0f, maxHeight, maxWidth, 1f)); // bottom
+		//walls.add(new Wall(0f, maxHeight, maxWidth, 1f)); // bottom
 	}
 	
+		
 	@Override
 	public void update(GameContainer gc, int delta) throws SlickException {
 		applyPlayerInput(gc, delta);
 		updateBallPosition(delta);
 		brickCollision();
 		powerUpCollision();
-		lives = GUI.gameLives(4);
+		//lives = GUI.gameLives(4);
 		score = GUI.gameScore();
+		
 	}
 	
 	private void brickCollision(){
@@ -115,7 +121,8 @@ public class SimpleSlickGame extends BasicGame
 		for (Iterator<Bricks> it = brick.iterator(); it.hasNext(); ) {
 		    Bricks b = it.next();
 		    if (b.intersects(ba)) {
-		        Random rand = new Random();
+		    	numberCounter.scoreCounter();
+		    	Random rand = new Random();
 		        //how often should PowerUps occur:
 		        int randomNum = rand.nextInt(2);
 		    	if(randomNum == 1){
@@ -124,7 +131,7 @@ public class SimpleSlickGame extends BasicGame
 			    	int brickY;
 			    	brickX = b.PositionOfBrickX();
 			    	brickY = b.PositionOfBrickY();
-			    	System.out.println(myMod);
+			    	
 			    	if(myMod % 5 == 0){
 			    		PUSB.add(new PowerUpSmallerBar(brickX+25,brickY,5));
 			    		myMod++;
@@ -202,10 +209,29 @@ public class SimpleSlickGame extends BasicGame
 	
 	
 	private void updateBallPosition(int delta) {
+		
+		for (Iterator<Ball> it = balls.iterator(); it.hasNext(); ) {
+			Ball bo = it.next();
+		    if (bo.intersects(buttomLine)) {
+		    	lives--;
+		    	numberCounter.minusBallCount();
+		    	it.remove();
+		    	if(numberCounter.numberOfBalls == 0){
+		    		numberCounter.plusBallCount();
+		    		balls.add(new Ball(playerBar.getX(),playerBar.getY(), ballRadius));
+		    	}
+		    	break;	
+		    }
+		}
+			
+		
 		for(Ball ba : balls){
 		if (playerBar.intersects(ba)) {
 			ba.collide(playerBar);
 		}
+		//else if (buttomLine.intersects(ba)){
+
+	
 		else {
 			for (Wall w : walls) {
 				if (w.intersects(ba)){
@@ -231,6 +257,8 @@ public class SimpleSlickGame extends BasicGame
 		}
 		if(downT == 3){
 			balls.add(new Ball(playerBar.getX(),playerBar.getY(), ballRadius));
+			numberCounter.plusBallCount();
+			System.out.println(numberCounter.numberOfBalls);
 			downT = 0;
 		}
 		if(downT == 4){
@@ -292,7 +320,7 @@ public class SimpleSlickGame extends BasicGame
 			g.draw(b);
 		}
 		g.drawString("LIFE:"+ lives, 540, 10);
-		g.drawString("SCORE:" + score, 540, 30);
+		g.drawString("SCORE:" + numberCounter.brickHit, 540, 30);
 		for(PowerUpExtendBar p : PUEB){
 			g.setColor(Color.green);
 			g.draw(p);
