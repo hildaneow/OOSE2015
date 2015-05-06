@@ -134,32 +134,51 @@ public class SimpleSlickGame extends BasicGame
 		        //how often should PowerUps occur:
 		        int randomNum = rand.nextInt(2);
 		    	if(randomNum == 1){
+		    		
 		    		//Spawn PowerUp at the position of the destroyed brick:
 			    	int brickX;
 			    	int brickY;
 			    	brickX = b.PositionOfBrickX();
 			    	brickY = b.PositionOfBrickY();
 			    	
-			    	if(myMod % 5 == 0){
-			    		PUSB.add(new PowerUpSmallerBar(brickX+25,brickY,5));
-			    		myMod++;
-			    	}
-			    	else if(myMod % 5 == 1){
+			    	
+			    	
+			    	Random rand1 = new Random();
+			        //how often should PowerUps occur:
+			        int randomNum1 = rand1.nextInt(5 + LevelGenerator.currentLevel * 2);
+			    	
+			    	
+			    	if(LevelGenerator.currentLevel >= 0){
+			    		//randomNum1 = randomNum1 - LevelGenerator.currentLevel;
+			    	if(randomNum1 == 1) {
+			    		//SMALLER BAR
 			    		PUNB.add(new PowerUpNewBall(brickX+25,brickY,5));
 			    		myMod++;
 			    	}
-			    	else if(myMod % 5 == 2){
+			    	
+			    	else if(randomNum1 == 2){
+			      		PUDS.add(new PowerUpDecreaseSpeed(brickX+25,brickY,5));
+			    		myMod++;
+			    	}
+			    	else if(randomNum1 == 3){
+			    		PUEB.add(new PowerUpExtendBar(brickX+25,brickY,5));
+			    		myMod++;
+			    	}
+			    	else {
+			    		Random rand2 = new Random();
+			    		int random2 = rand2.nextInt(2);
+			    		
+			    		if(random2 == 0){
 			    		PUIS.add(new PowerUpIncreaseSpeed(brickX+25,brickY,5));
+			    		}
+			    		if (random2 == 1){
+			    		PUSB.add(new PowerUpSmallerBar(brickX+25,brickY,5));
 			    		myMod++;
+			    		}
 			    	}
-			    	else if(myMod % 5 == 3){
-			    		PUDS.add(new PowerUpDecreaseSpeed(brickX+25,brickY,5));
-			    		myMod++;
+			    	
 			    	}
-			    	else if (myMod % 5 == 4){
-				    	PUEB.add(new PowerUpExtendBar(brickX+25,brickY,5));
-				    	myMod++;
-			    	}
+			    	
 		    	}
 		    	ba.collide(b);
 		        //it.remove();

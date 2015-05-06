@@ -15,6 +15,7 @@ public class LevelGenerator {
 	public static List<Bricks> brick;
 	private static int maxWidth = 640;
 	private static int maxHeight = 480;
+	public static int currentLevel = 0;
 	
 	public static void init() {
 		brick =new ArrayList<Bricks>();
@@ -49,9 +50,15 @@ public class LevelGenerator {
 					}
 				}
 			}
+			
+			currentLevel++;
+			
 		}
 		
 	}
+	
+	
+	
 	
 	
 }
