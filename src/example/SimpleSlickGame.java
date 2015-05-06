@@ -123,6 +123,17 @@ public class SimpleSlickGame extends BasicGame
 	//Remove brick, bounce ball and spawn powerup on ball-brick collision:
 	
 		for(Ball ba : balls){
+			
+			for(int i = 0; i < levelGenerator.unBreackable.size();i++) {
+				Bricks b = levelGenerator.unBreackable.get(i);
+				if (b.intersects(ba)) {
+					ba.collide(b);
+					break;
+				}
+			}
+			
+			
+			
 			for(int i = 0; i < levelGenerator.brick.size();i++) {
 				
 			Bricks b = levelGenerator.brick.get(i);	
