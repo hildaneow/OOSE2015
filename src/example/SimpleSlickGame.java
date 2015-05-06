@@ -22,14 +22,13 @@ import org.newdawn.slick.SlickException;
 public class SimpleSlickGame extends BasicGame
 {
 
-	public static final int menu = 0;
-	public static final int play = 1;
-	
+
+	public LevelGenerator levelGenerator;
 	private static int maxWidth = 640;
 	private static int maxHeight = 480;
 	private PlayerBar playerBar;
 	private List<Wall> walls;
-	private List<Bricks> brick;
+	//private List<Bricks> brick2;
 	private int lives = 4;
 	private int score;
 	private GameGUI GUI;
@@ -64,13 +63,13 @@ public class SimpleSlickGame extends BasicGame
 	public SimpleSlickGame(String gamename)
 	{
 		super(gamename);
-		//this.addState(new Menu(menu));
-		//this.addState(new Play(play));
 	}
 
 	@Override
 	public void init(GameContainer gc) throws SlickException {
 
+		levelGenerator = new LevelGenerator();
+		
 		playerBar = new PlayerBar((maxWidth -  width)/2, maxHeight-100, width, height);
 		playerBar.setHorizontalLimit(maxWidth);
 		
@@ -84,13 +83,16 @@ public class SimpleSlickGame extends BasicGame
 		
 		buttomLine = new Wall(0f, maxHeight, maxWidth, 1f);
 		
-		brick =new ArrayList<Bricks>();
+		LevelGenerator.init();
+		
+		//brick2 = new ArrayList<Bricks>();
+		/*
 		for(int i = 50; i<maxWidth -50; i+=50){
 			for(int y=50; y < 200; y+=20){
 				brick.add(new Bricks(i,y,50,20));
 			}
 		}
-			
+			*/
 
 		
 		balls = new ArrayList<Ball>();
@@ -110,16 +112,22 @@ public class SimpleSlickGame extends BasicGame
 		updateBallPosition(delta);
 		brickCollision();
 		powerUpCollision();
-		//lives = GUI.gameLives(4);
-		score = GUI.gameScore();
+		levelGenerator.newLevel();
+		System.out.println(levelGenerator.brick.size());
+		
+		//score = GUI.gameScore();
 		
 	}
 	
 	private void brickCollision(){
 	//Remove brick, bounce ball and spawn powerup on ball-brick collision:
+	
 		for(Ball ba : balls){
-		for (Iterator<Bricks> it = brick.iterator(); it.hasNext(); ) {
-		    Bricks b = it.next();
+			for(int i = 0; i < levelGenerator.brick.size();i++) {
+				
+			Bricks b = levelGenerator.brick.get(i);	
+		//for (Iterator<levelGenerator>().Bricks> it = brick.iterator(); it.hasNext(); ) {
+		    //Bricks b = it.next();
 		    if (b.intersects(ba)) {
 		    	numberCounter.scoreCounter();
 		    	Random rand = new Random();
@@ -154,7 +162,8 @@ public class SimpleSlickGame extends BasicGame
 			    	}
 		    	}
 		    	ba.collide(b);
-		        it.remove();
+		        //it.remove();
+		    	levelGenerator.brick.remove(b);
 		        break;
 		    }
 		}
@@ -258,7 +267,7 @@ public class SimpleSlickGame extends BasicGame
 		if(downT == 3){
 			balls.add(new Ball(playerBar.getX(),playerBar.getY(), ballRadius));
 			numberCounter.plusBallCount();
-			System.out.println(numberCounter.numberOfBalls);
+			//System.out.println(numberCounter.numberOfBalls);
 			downT = 0;
 		}
 		if(downT == 4){
@@ -315,10 +324,10 @@ public class SimpleSlickGame extends BasicGame
 			g.draw(b);
 		}
 		
-		//g.draw(ball);
-		for(Bricks b : brick){
-			g.draw(b);
-		}
+		LevelGenerator.render( gc, g);
+	//	for(Bricks b : brick){
+	//		g.draw(b);
+	//	}
 		g.drawString("LIFE:"+ lives, 540, 10);
 		g.drawString("SCORE:" + numberCounter.brickHit, 540, 30);
 		for(PowerUpExtendBar p : PUEB){
