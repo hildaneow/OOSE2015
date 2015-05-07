@@ -23,9 +23,12 @@ import org.newdawn.slick.Sound;
 public class SimpleSlickGame extends BasicGame
 {
 
+	public static boolean gameJustStarted = true;
+	
 	private Sound sound;
 	public LevelGenerator levelGenerator;
 	public GameOver gameOver;
+	public StartScreen startScreen;
 	private static int maxWidth = 640;
 	private static int maxHeight = 480;
 	private PlayerBar playerBar;
@@ -79,6 +82,8 @@ public class SimpleSlickGame extends BasicGame
 
 		levelGenerator = new LevelGenerator();
 		gameOver = new GameOver();
+		startScreen = new StartScreen();
+		startScreen.StartGame();
 		sound = new Sound("res/pew.wav");
 		
 		playerBar = new PlayerBar((maxWidth -  width)/2, maxHeight-100, width, height);
@@ -96,6 +101,7 @@ public class SimpleSlickGame extends BasicGame
 		
 		LevelGenerator.init();
 		GameOver.init();
+		
 		//brick2 = new ArrayList<Bricks>();
 		/*
 		for(int i = 50; i<maxWidth -50; i+=50){
@@ -361,6 +367,8 @@ public class SimpleSlickGame extends BasicGame
 		balls.add(new Ball(playerBar.getX(),playerBar.getY(), ballRadius));
 		ballIsDead = false;
 		}
+		if (input.isKeyDown(Input.KEY_SPACE))
+		gameJustStarted = false;
 	}
 
 	@Override
@@ -405,7 +413,10 @@ public class SimpleSlickGame extends BasicGame
 			GameOver.render(gc, g);
 		}
 		
-		
+		if(gameJustStarted == true){
+			StartScreen.render(gc,g);
+		}
+
 		
 	}
 	
