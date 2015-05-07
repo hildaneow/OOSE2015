@@ -18,18 +18,20 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.Sound;
 
 public class SimpleSlickGame extends BasicGame
 {
 
-
+	private Sound sound;
 	public LevelGenerator levelGenerator;
+	public GameOver gameOver;
 	private static int maxWidth = 640;
 	private static int maxHeight = 480;
 	private PlayerBar playerBar;
 	private List<Wall> walls;
 	//private List<Bricks> brick2;
-	private int lives = 4;
+	public static int lives = 4;
 	private int score;
 	private GameGUI GUI;
 	
@@ -69,6 +71,8 @@ public class SimpleSlickGame extends BasicGame
 	public void init(GameContainer gc) throws SlickException {
 
 		levelGenerator = new LevelGenerator();
+		gameOver = new GameOver();
+		sound = new Sound("res/pew.wav");
 		
 		playerBar = new PlayerBar((maxWidth -  width)/2, maxHeight-100, width, height);
 		playerBar.setHorizontalLimit(maxWidth);
@@ -84,7 +88,7 @@ public class SimpleSlickGame extends BasicGame
 		buttomLine = new Wall(0f, maxHeight, maxWidth, 1f);
 		
 		LevelGenerator.init();
-		
+		GameOver.init();
 		//brick2 = new ArrayList<Bricks>();
 		/*
 		for(int i = 50; i<maxWidth -50; i+=50){
@@ -108,14 +112,16 @@ public class SimpleSlickGame extends BasicGame
 		
 	@Override
 	public void update(GameContainer gc, int delta) throws SlickException {
+		if(lives > 0){
 		applyPlayerInput(gc, delta);
 		updateBallPosition(delta);
 		brickCollision();
 		powerUpCollision();
 		levelGenerator.newLevel();
-		System.out.println(levelGenerator.brick.size());
-		
-		//score = GUI.gameScore();
+		}
+		if(lives < 1){
+			GameOver.applyPlayerInput(gc, delta);
+		}
 		
 	}
 	
@@ -192,6 +198,7 @@ public class SimpleSlickGame extends BasicGame
 			    	
 		    	}
 		    	ba.collide(b);
+		    	sound.play();
 		        //it.remove();
 		    	levelGenerator.brick.remove(b);
 		        break;
@@ -348,10 +355,11 @@ public class SimpleSlickGame extends BasicGame
 	public void render(GameContainer gc, Graphics g) throws SlickException
 	{
 		g.setColor(Color.blue);
-		g.draw(playerBar);
+		g.fill(playerBar);
 
+		g.setColor(Color.white);
 		for(Ball b : balls){
-			g.draw(b);
+			g.fill(b);
 		}
 		
 		LevelGenerator.render( gc, g);
@@ -381,7 +389,9 @@ public class SimpleSlickGame extends BasicGame
 			g.draw(p);
 		}
 		
-		
+		if(lives <= 0){
+			GameOver.render(gc, g);
+		}
 		
 		
 		

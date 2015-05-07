@@ -42,17 +42,47 @@ public class LevelGenerator {
 		}
 	}
 	
+	public static void firstLevel(){
+		unBreackable.removeAll(unBreackable);
+		brick.removeAll(brick);
+		brick =new ArrayList<Bricks>();
+		for(int i = 50; i<maxWidth -50; i+=50){
+			for(int y=50; y < 200; y+=20){
+		    	Random rand = new Random();
+		        int randomNum = rand.nextInt(3);
+		        if(randomNum==1){
+		        	brick.add(new Bricks(i,y,50,20));
+				}
+			}
+		}
+		unBreackable = new ArrayList<Bricks>();
+		for(int i = 50; i<maxWidth -50; i+=100){
+			for(int y=50; y < 200; y+=40){
+		    	Random rand = new Random();
+		        int randomNum = rand.nextInt(7);
+		        if(randomNum==1){
+		        	unBreackable.add(new Bricks(i,y,50,20));
+				}
+			}
+		}
+		
+		
+	}
+	
 	
 	public static void render(GameContainer gc, Graphics g) throws SlickException
 	{
 		for(Bricks b : brick){
-			g.draw(b);
+			g.setColor(Color.pink);
+			g.fill(b);
 		}
 		for(Bricks b : unBreackable){
 			g.setColor(Color.red);
-			g.draw(b);
+			g.fill(b);
 		}
 	}
+	
+
 	
 	public static void newLevel() {
 		
