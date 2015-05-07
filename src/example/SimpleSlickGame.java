@@ -35,6 +35,8 @@ public class SimpleSlickGame extends BasicGame
 	private int score;
 	private GameGUI GUI;
 	
+	boolean ballIsDead = false;
+	
 	private int myMod = 0;
 	
 	//make lists of differnt powerups
@@ -269,7 +271,8 @@ public class SimpleSlickGame extends BasicGame
 		    	it.remove();
 		    	if(numberCounter.numberOfBalls == 0){
 		    		numberCounter.plusBallCount();
-		    		balls.add(new Ball(playerBar.getX(),playerBar.getY(), ballRadius));
+		    		ballIsDead = true;
+		    		
 		    	}
 		    	break;	
 		    }
@@ -353,6 +356,10 @@ public class SimpleSlickGame extends BasicGame
 			playerBar.moveLeft(delta);
 		} else if (input.isKeyDown(Input.KEY_RIGHT)) {
 			playerBar.moveRight(delta);
+		}
+		if (ballIsDead == true && input.isKeyDown(Input.KEY_SPACE)){
+		balls.add(new Ball(playerBar.getX(),playerBar.getY(), ballRadius));
+		ballIsDead = false;
 		}
 	}
 
