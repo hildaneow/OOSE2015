@@ -29,8 +29,8 @@ public class GameOver {
 		
 		bigBrick = new Bricks(100,350,450, 100);
 		brick =new ArrayList<Bricks>();
-		for(int i = 0; i<maxWidth; i+=100){
-			for(int y=0; y < maxHeight; y+=40){
+		for(int i = 50; i<maxWidth-50; i+=100){
+			for(int y=50; y < maxHeight-50; y+=40){
 		        	brick.add(new Bricks(i,y,50,20));
 				}
 			}

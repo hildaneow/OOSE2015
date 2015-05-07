@@ -38,11 +38,16 @@ public class SimpleSlickGame extends BasicGame
 	private int myMod = 0;
 	
 	//make lists of differnt powerups
+	//extend bar:
 	private List<PowerUpExtendBar> PUEB;
-	private List<PowerUpSmallerBar> PUSB;
-	private List<PowerUpNewBall> PUNB;
-	private List<PowerUpIncreaseSpeed> PUIS;
-	private List<PowerUpDecreaseSpeed> PUDS;
+	//smaller bar
+	private List<PowerUpExtendBar> PUSB;
+	//new ball
+	private List<PowerUpExtendBar> PUNB;
+	//increase ballspeed
+	private List<PowerUpExtendBar> PUIS;
+	//decrease ballspeed
+	private List<PowerUpExtendBar> PUDS;
 	
 	private List<Ball> balls;
 	
@@ -78,10 +83,10 @@ public class SimpleSlickGame extends BasicGame
 		playerBar.setHorizontalLimit(maxWidth);
 		
 		PUEB = new ArrayList<PowerUpExtendBar>();
-		PUSB = new ArrayList<PowerUpSmallerBar>();
-		PUNB = new ArrayList<PowerUpNewBall>();
-		PUIS = new ArrayList<PowerUpIncreaseSpeed>();
-		PUDS = new ArrayList<PowerUpDecreaseSpeed>();
+		PUSB = new ArrayList<PowerUpExtendBar>();
+		PUNB = new ArrayList<PowerUpExtendBar>();
+		PUIS = new ArrayList<PowerUpExtendBar>();
+		PUDS = new ArrayList<PowerUpExtendBar>();
 		
 		GUI = new GameGUI();
 		
@@ -169,12 +174,12 @@ public class SimpleSlickGame extends BasicGame
 			    		//randomNum1 = randomNum1 - LevelGenerator.currentLevel;
 			    	if(randomNum1 == 1) {
 			    		//SMALLER BAR
-			    		PUNB.add(new PowerUpNewBall(brickX+25,brickY,5));
+			    		PUNB.add(new PowerUpExtendBar(brickX+25,brickY,5));
 			    		myMod++;
 			    	}
 			    	
 			    	else if(randomNum1 == 2){
-			      		PUDS.add(new PowerUpDecreaseSpeed(brickX+25,brickY,5));
+			      		PUDS.add(new PowerUpExtendBar(brickX+25,brickY,5));
 			    		myMod++;
 			    	}
 			    	else if(randomNum1 == 3){
@@ -186,10 +191,10 @@ public class SimpleSlickGame extends BasicGame
 			    		int random2 = rand2.nextInt(2);
 			    		
 			    		if(random2 == 0){
-			    		PUIS.add(new PowerUpIncreaseSpeed(brickX+25,brickY,5));
+			    		PUIS.add(new PowerUpExtendBar(brickX+25,brickY,5));
 			    		}
 			    		if (random2 == 1){
-			    		PUSB.add(new PowerUpSmallerBar(brickX+25,brickY,5));
+			    		PUSB.add(new PowerUpExtendBar(brickX+25,brickY,5));
 			    		myMod++;
 			    		}
 			    	}
@@ -217,32 +222,32 @@ public class SimpleSlickGame extends BasicGame
 		        break;
 		    }
 		}
-		for (Iterator<PowerUpSmallerBar> it = PUSB.iterator(); it.hasNext(); ) {
-			PowerUpSmallerBar p = it.next();
+		for (Iterator<PowerUpExtendBar> it = PUSB.iterator(); it.hasNext(); ) {
+			PowerUpExtendBar p = it.next();
 		    if (p.intersects(playerBar)) {
 		    	downT=2;
 		        it.remove();
 		        break;
 		    }
 		}
-		for (Iterator<PowerUpNewBall> it = PUNB.iterator(); it.hasNext(); ) {
-			PowerUpNewBall p = it.next();
+		for (Iterator<PowerUpExtendBar> it = PUNB.iterator(); it.hasNext(); ) {
+			PowerUpExtendBar p = it.next();
 		    if (p.intersects(playerBar)) {
 		    	downT=3;
 		        it.remove();
 		        break;
 		    }
 		}
-		for (Iterator<PowerUpIncreaseSpeed> it = PUIS.iterator(); it.hasNext(); ) {
-			PowerUpIncreaseSpeed p = it.next();
+		for (Iterator<PowerUpExtendBar> it = PUIS.iterator(); it.hasNext(); ) {
+			PowerUpExtendBar p = it.next();
 		    if (p.intersects(playerBar)) {
 		    	downT=4;
 		        it.remove();
 		        break;
 		    }
 		}
-		for (Iterator<PowerUpDecreaseSpeed> it = PUDS.iterator(); it.hasNext(); ) {
-			PowerUpDecreaseSpeed p = it.next();
+		for (Iterator<PowerUpExtendBar> it = PUDS.iterator(); it.hasNext(); ) {
+			PowerUpExtendBar p = it.next();
 		    if (p.intersects(playerBar)) {
 		    	downT=5;
 		        it.remove();
@@ -327,16 +332,16 @@ public class SimpleSlickGame extends BasicGame
 		for(PowerUpExtendBar p : PUEB){
 			p.updatePosition(delta);
 		}
-		for(PowerUpSmallerBar p : PUSB){
+		for(PowerUpExtendBar p : PUSB){
 			p.updatePosition(delta);
 		}	
-		for(PowerUpNewBall p : PUNB){
+		for(PowerUpExtendBar p : PUNB){
 			p.updatePosition(delta);
 		}	
-		for(PowerUpIncreaseSpeed p : PUIS){
+		for(PowerUpExtendBar p : PUIS){
 			p.updatePosition(delta);
 		}	
-		for(PowerUpDecreaseSpeed p : PUDS){
+		for(PowerUpExtendBar p : PUDS){
 			p.updatePosition(delta);
 		}	
 		
@@ -372,19 +377,19 @@ public class SimpleSlickGame extends BasicGame
 			g.setColor(Color.green);
 			g.draw(p);
 		}
-		for(PowerUpSmallerBar p : PUSB){
+		for(PowerUpExtendBar p : PUSB){
 			g.setColor(Color.red);
 			g.draw(p);
 		}
-		for(PowerUpNewBall p : PUNB){
+		for(PowerUpExtendBar p : PUNB){
 			g.setColor(Color.orange);
 			g.draw(p);
 		}
-		for(PowerUpIncreaseSpeed p : PUIS){
+		for(PowerUpExtendBar p : PUIS){
 			g.setColor(Color.yellow);
 			g.draw(p);
 		}
-		for(PowerUpDecreaseSpeed p : PUDS){
+		for(PowerUpExtendBar p : PUDS){
 			g.setColor(Color.cyan);
 			g.draw(p);
 		}
