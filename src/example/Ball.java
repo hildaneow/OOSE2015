@@ -3,10 +3,7 @@ package example;
 import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Vector2f;
 
-/**
- * @author RasmusMadsen
- *
- */
+
 public class Ball extends Circle {
 
 	private static final long serialVersionUID = 1L;

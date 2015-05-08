@@ -9,11 +9,22 @@ public class Wall extends Rectangle implements ICollidableObject {
 	
 	private boolean horizontal;
 
+	/**
+	 * creates a wall.
+	 * @param x
+	 * @param y
+	 * @param width
+	 * @param height
+	 */
 	public Wall(float x, float y, float width, float height) {
 		super(x, y, width, height);
 		this.horizontal = width > height;
 	}
 
+	/* 
+	 * returns the direction after collision
+	 * @see example.ICollidableObject#getBounceDirection(example.Ball)
+	 */
 	public Vector2f getBounceDirection(Ball ball) {
 		
 			

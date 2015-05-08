@@ -66,11 +66,19 @@ public class SimpleSlickGame extends BasicGame
 	float downTime = 4;
 	static int downT = 0;
 	
+	/**
+	 * starts the game and gives it a name.
+	 * @param gamename
+	 */
 	public SimpleSlickGame(String gamename)
 	{
 		super(gamename);
 	}
 
+	/* 
+	 * Initializeses all the game objects and arrays and starts the music
+	 * @see org.newdawn.slick.BasicGame#init(org.newdawn.slick.GameContainer)
+	 */
 	@Override
 	public void init(GameContainer gc) throws SlickException {
 
@@ -114,6 +122,10 @@ public class SimpleSlickGame extends BasicGame
 	}
 	
 		
+	/* 
+	 * calls all the object functions.
+	 * @see org.newdawn.slick.BasicGame#update(org.newdawn.slick.GameContainer, int)
+	 */
 	@Override
 	public void update(GameContainer gc, int delta) throws SlickException {
 		
@@ -134,6 +146,11 @@ public class SimpleSlickGame extends BasicGame
 		
 	}
 	
+	/**
+	 * When the brick collides with the ball it calls the collide function from unbreakable bricks
+	 * and when it collides with the breakable bricks it breaks them.
+	 * Also randomly generates powerups.
+	 */
 	private void brickCollision(){
 	//Remove brick, bounce ball and spawn powerup on ball-brick collision:
 		for(Ball ba : balls){
@@ -197,6 +214,9 @@ public class SimpleSlickGame extends BasicGame
 		}
 	}
 	
+	/**
+	 * Applies the powerups when the playerbar collides with the powerups.
+	 */
 	private void powerUpCollision(){
 		//remove PowerUp when it hits playerbar:
 		//sets the variable to the downT which fits the powerup
@@ -245,6 +265,13 @@ public class SimpleSlickGame extends BasicGame
 		
 	}
 	
+	/**
+	 * Updates the balls position, removes it if it intersects the bottomline and takes a life
+	 * if you lose a ball when you only have one left.
+	 * Triggers collisions.
+	 * Updates position of powerups.
+	 * @param delta
+	 */
 	private void updateBallPosition(int delta) {
 		
 		//if ball is out of screen by bottom
@@ -362,6 +389,11 @@ public class SimpleSlickGame extends BasicGame
 		}	
 	}
 	
+	/**
+	 * Applies the players input. And removes the startscreen on space.
+	 * @param gc
+	 * @param delta
+	 */
 	private void applyPlayerInput(GameContainer gc, int delta) {
 		Input input = gc.getInput();
 		for(PlayerBar pb : playerBar){
@@ -380,6 +412,10 @@ public class SimpleSlickGame extends BasicGame
 	}
 	}
 
+	/* 
+	 * Draws/renders the playerbar, ball, the gui the powerups and the startscreen if the game just started
+	 * @see org.newdawn.slick.Game#render(org.newdawn.slick.GameContainer, org.newdawn.slick.Graphics)
+	 */
 	@Override
 	public void render(GameContainer gc, Graphics g) throws SlickException
 	{
@@ -427,6 +463,10 @@ public class SimpleSlickGame extends BasicGame
 		}
 	}
 	
+	/**
+	 * Tries to start the game and sets the display size, logs an exception if it cant.
+	 * @param args
+	 */
 	public static void main(String[] args)
 	{
 
