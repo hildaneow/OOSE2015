@@ -31,7 +31,6 @@ public class GameOver {
 	public static void init() {
 		
 		levelGenerator = new LevelGenerator();
-		
 		bigBrick = new Bricks(100,350,450, 100);
 		brick =new ArrayList<Bricks>();
 		for(int i = 50; i<maxWidth-50; i+=100){

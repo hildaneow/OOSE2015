@@ -18,11 +18,13 @@ public class PlayerBar extends Rectangle implements ICollidableObject {
 	}
 	
 	public void moveLeft(int delta) {
+		//updates position of playerbar when moving left
 		float offset = -delta * this.velocity;
 		updatePosition(getCenterX(), offset);
 	}
 
 	public void moveRight(int delta) {
+		//updates position of playerbar when moving right
 		float offset = delta * this.velocity;
 		updatePosition(getCenterX(), offset);
 	}
