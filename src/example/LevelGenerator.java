@@ -10,6 +10,8 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 
 
+
+
 public class LevelGenerator {
 	
 	//declares list of breakable bricks
@@ -21,7 +23,14 @@ public class LevelGenerator {
 	//Declares and initializes first level
 	public static int currentLevel = 0;
 	
-	
+	/**
+	 * @author Jon
+	 * Crreats the bricks for the first level. this is done by double forloops Bricks out on x and down on y
+	 * it then only makes it when random fucntion is 1 so it doesnt fill all screen.
+	 * It does the same with unbreackable bricks but these are more rare. it also makes sure not to
+	 * draw these next to eachother so they do not surround a breakable brick and making the player
+	 * unable to reach it.
+	 */
 	public static void init() {
 		//list for bricks
 		brick =new ArrayList<Bricks>();
@@ -50,7 +59,10 @@ public class LevelGenerator {
 			}
 		}
 	}
-	
+	/**
+	 * this initializes the first level like init, but is called after a gameover
+	 * it therefore also removes any remaning bricks from last game
+	 */
 	public static void firstLevel(){
 		//removes all unbreakable bricks in first level
 		unBreackable.removeAll(unBreackable);
@@ -86,7 +98,12 @@ public class LevelGenerator {
 		}
 	}
 	
-	
+	/**
+	 * This is the rendering of the bricks called in this class
+	 * @param gc
+	 * @param g
+	 * @throws SlickException
+	 */
 	public static void render(GameContainer gc, Graphics g) throws SlickException
 	{
 		for(Bricks b : brick){
@@ -102,7 +119,12 @@ public class LevelGenerator {
 			g.fill(b);
 		}
 	}
-	
+	/**
+	 * this creates bricks when one is completed. same as the previous one but this one adds more brick
+	 * by having a random function where there is 50% chance to create brick instead of 33%
+	 * it also removes unbreakable bricks from previous play.
+	 * and increases the currentLevel variable
+	 */
 	public static void newLevel() {
 		//if all not unbreakable bricks are destroyed, create new array list of bricks
 		if(brick.size() == 0){

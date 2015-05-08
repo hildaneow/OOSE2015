@@ -118,11 +118,11 @@ public class SimpleSlickGame extends BasicGame
 	public void update(GameContainer gc, int delta) throws SlickException {
 		
 		if(lives > 0){
-		applyPlayerInput(gc, delta);
-		updateBallPosition(delta);
-		brickCollision();
-		powerUpCollision();
-		levelGenerator.newLevel();
+			applyPlayerInput(gc, delta);
+			updateBallPosition(delta);
+			brickCollision();
+			powerUpCollision();
+			levelGenerator.newLevel();
 		}
 		if(lives < 1){
 			for(PlayerBar pb : playerBar){

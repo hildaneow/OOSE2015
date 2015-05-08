@@ -25,6 +25,9 @@ public class GameOver {
 	
 	
 	/**
+	 * This crreats a brick array to indicate game is over (grey block for every other place
+	 * it alsomakes a big brick which is used as a text box.
+	 * it also draws a image that reads "GAME OVER"
 	 * 
 	 * 
 	 */
@@ -50,6 +53,12 @@ public class GameOver {
 		
 		}
 	
+	/**
+	 * this uses playerinput to reset the game by reseting the lives score
+	 * it also resets score and then calls function for the first level from levelgenerator
+	 * @param gc
+	 * @param delta
+	 */
 
 	public static void applyPlayerInput(GameContainer gc, int delta) {
 		Input input = gc.getInput();	
@@ -61,7 +70,12 @@ public class GameOver {
 	}
 
 
-
+	/**
+	 * This method renders all the bricks and also writes information about score and how to restart
+	 * @param gc
+	 * @param g
+	 * @throws SlickException
+	 */
 	
 	public static void render(GameContainer gc, Graphics g) throws SlickException
 	{
