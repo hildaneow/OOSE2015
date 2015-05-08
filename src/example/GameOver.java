@@ -47,7 +47,7 @@ public class GameOver {
 		
 
 			try {
-				endGame = new Image("res/Endtext.png");
+				endGame = new Image("SoundsImagaes/Endtext.png");
 			} catch (SlickException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

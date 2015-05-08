@@ -13,7 +13,7 @@ public class StartScreen {
 	public static void StartGame () throws SlickException
 	{
 		//initializes and declares start screen image
-		startscreen = new Image("res/startscreen.jpg");
+		startscreen = new Image("SoundsImagaes/startscreen.jpg");
 	}
 
 	public static void render(GameContainer gc, Graphics g) throws SlickException

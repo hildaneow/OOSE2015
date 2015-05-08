@@ -86,8 +86,8 @@ public class SimpleSlickGame extends BasicGame
 		gameOver = new GameOver();
 		startScreen = new StartScreen();
 		startScreen.StartGame();
-		sound = new Sound("res/ballSound.wav");
-		music = new Music("res/Hydrogen.wav");
+		sound = new Sound("SoundsImagaes/ballSound.wav");
+		music = new Music("SoundsImagaes/Hydrogen.wav");
 		music.play();
 		
 		playerBar= new ArrayList<PlayerBar>();
