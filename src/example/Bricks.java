@@ -9,30 +9,38 @@ import org.newdawn.slick.geom.Vector2f;
 public class Bricks extends Rectangle implements ICollidableObject{
 	
 	
-	private boolean horizontal;
+
 	private static final long serialVersionUID = 1L;
 	
 	public Bricks(float x, int y, float width, float height){
 		super(x, y, width, height);
-		this.horizontal = width > height; // how does this work?
+		
 	}
 		
+	/* 
+	 * @see example.ICollidableObject#getBounceDirection(example.Ball)
+	 */
 	public Vector2f getBounceDirection(Ball ball) {
 		Vector2f direction = ball.getDirection();
-		if (horizontal) {
-			direction.y = -direction.y;
-		} else {
-			direction.x = -direction.x;
-		}
+		direction.y = -direction.y;
+		
 		
 		return direction;
 	}
 	
+	/**
+	 * returns the x of a specific brick.
+	 * @return
+	 */
 	public int PositionOfBrickX(){
 		int xX;
 		xX = (int) this.x;
 		return xX;
 	}
+	/**
+	 * returns the y of a specific brick
+	 * @return
+	 */
 	public int PositionOfBrickY(){
 		int yY;
 		yY = (int) this.y;

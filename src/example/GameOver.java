@@ -23,6 +23,11 @@ public class GameOver {
 	
 	private static Bricks bigBrick;
 	
+	
+	/**
+	 * 
+	 * 
+	 */
 	public static void init() {
 		
 		levelGenerator = new LevelGenerator();
