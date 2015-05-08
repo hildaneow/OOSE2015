@@ -10,11 +10,13 @@ public class PowerUpExtendBar extends Circle{
 
 	public PowerUpExtendBar(float centerPointX, float centerPointY, float radius) {
 		super(centerPointX, centerPointY, radius);
+		//the direction of the power up - it falls downwards
 		direction = new Vector2f(0f, 9f);
 	}
 	public void updatePosition(int delta) {
 		float x = getCenterX();
 		float y = getCenterY();
+		//updates position from speed and direction
 		setCenterX(x + this.velocity*this.direction.x*delta);
 		setCenterY(y + this.velocity*this.direction.y*delta);
 	}

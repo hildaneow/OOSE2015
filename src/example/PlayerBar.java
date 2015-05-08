@@ -40,6 +40,7 @@ public class PlayerBar extends Rectangle implements ICollidableObject {
 
 	public Vector2f getBounceDirection(Ball ball) {
 		Vector2f direction = ball.getDirection();
+		//if statement that controles bounce direction
 		if (ball.getMinX() < this.getMinX() || ball.getMaxX() > this.getMaxX()) {
 			direction.x = -direction.x;
 		} else {

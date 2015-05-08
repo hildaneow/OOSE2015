@@ -118,11 +118,11 @@ public class SimpleSlickGame extends BasicGame
 	public void update(GameContainer gc, int delta) throws SlickException {
 		
 		if(lives > 0){
-			applyPlayerInput(gc, delta);
-			updateBallPosition(delta);
-			brickCollision();
-			powerUpCollision();
-			levelGenerator.newLevel();
+		applyPlayerInput(gc, delta);
+		updateBallPosition(delta);
+		brickCollision();
+		powerUpCollision();
+		levelGenerator.newLevel();
 		}
 		if(lives < 1){
 			for(PlayerBar pb : playerBar){
@@ -139,6 +139,7 @@ public class SimpleSlickGame extends BasicGame
 		for(Ball ba : balls){
 			for(int i = 0; i < levelGenerator.unBreackable.size();i++) {
 				Bricks b = levelGenerator.unBreackable.get(i);
+				//when ball hit brick the ball will bounce by collid method
 				if (b.intersects(ba)) {
 					ba.collide(b);
 					break;
@@ -156,12 +157,14 @@ public class SimpleSlickGame extends BasicGame
 						//Spawn PowerUp at the position of the destroyed brick:
 						int brickX;
 						int brickY;
+						//saves location of current brick
 						brickX = b.PositionOfBrickX();
 						brickY = b.PositionOfBrickY();
 						Random rand1 = new Random();
 						//how often should PowerUps occur:
 						int randomNum1 = rand1.nextInt(5 + LevelGenerator.currentLevel * 2);
 						if(LevelGenerator.currentLevel >= 0){
+							//the different powerups are chosen between
 							if(randomNum1 == 1) {
 								//SMALLER BAR
 								PUNB.add(new PowerUpExtendBar(brickX+25,brickY,5));
@@ -186,7 +189,7 @@ public class SimpleSlickGame extends BasicGame
 		    	}
 		    	ba.collide(b);
 		    	sound.play();
-		        //it.remove();
+		        //the brick is removed because it is breakable
 		    	levelGenerator.brick.remove(b);
 		        break;
 		    }
@@ -196,6 +199,7 @@ public class SimpleSlickGame extends BasicGame
 	
 	private void powerUpCollision(){
 		//remove PowerUp when it hits playerbar:
+		//sets the variable to the downT which fits the powerup
 		for(PlayerBar pb : playerBar){
 		for (Iterator<PowerUpExtendBar> it = PUEB.iterator(); it.hasNext(); ) {
 			PowerUpExtendBar p = it.next();
@@ -242,11 +246,15 @@ public class SimpleSlickGame extends BasicGame
 	}
 	
 	private void updateBallPosition(int delta) {
+		
+		//if ball is out of screen by bottom
 		for (Iterator<Ball> it = balls.iterator(); it.hasNext(); ) {
 			Ball bo = it.next();
 		    if (bo.intersects(buttomLine)) {
+		    	//the numerof balls variable is decreases
 		    	numberCounter.minusBallCount();
 		    	it.remove();
+		    	//when there only is one ball and it disapperas lives decrease and reset ballspeed
 		    	if(numberCounter.numberOfBalls == 0){
 		    		Ball.velocity=0.05f;
 		    		numberCounter.plusBallCount();
@@ -299,27 +307,33 @@ public class SimpleSlickGame extends BasicGame
 //Make the playerbar normalsize after x time (sek now)... this should be moved!
 		for(PlayerBar pb : playerBar){
 		if(downT == 1){
+			//makes bar bigger for 5000 millis
 			width = PlayerBar.extendBar(delta, 5000);
+			//when width is resat downT is back at 0
 			if(width == 100){
 				downT = 0;
 			}
 		}
 		if(downT == 2){
+			//makes the bar smaller for 5000 millis
 			width = PlayerBar.SmallerBar(delta, 5000);
 			if(width == 100){
 				downT = 0;
 			}
 		}
 		if(downT == 3){
+			//adds a new ball at the paddles position
 			balls.add(new Ball(pb.getX(),pb.getY(), ballRadius));
 			numberCounter.plusBallCount();
 			downT = 0;
 		}
 		if(downT == 4){
+			//increases ballspeed by 1.5
 			Ball.velocity *=1.5f;
 			downT = 0;
 		}
 		if(downT == 5){
+			//decresases the ballspeed 
 			Ball.velocity *=0.75f;
 			downT = 0;
 		}

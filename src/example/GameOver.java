@@ -13,27 +13,30 @@ import org.newdawn.slick.SlickException;
 
 public class GameOver {
 
-	
+	//declares endgame image
 	static Image endGame;
+	//declares levelgenerator
 	public static LevelGenerator levelGenerator;
+	//declares list of bricks
 	public static List<Bricks> brick;
+	//declares list of bricks
 	public static List<Bricks> brick2;
+	//declares and initializes width of screen
 	private static int maxWidth = 640;
+	//declares and initializes height of screen
 	private static int maxHeight = 480;
-	
+	//declares brick for text
 	private static Bricks bigBrick;
 	
 	
 	/**
-	 * This crreats a brick array to indicate game is over (grey block for every other place
-	 * it alsomakes a big brick which is used as a text box.
-	 * it also draws a image that reads "GAME OVER"
 	 * 
 	 * 
 	 */
 	public static void init() {
-		
+		//new level generator
 		levelGenerator = new LevelGenerator();
+		//brick that holds text
 		bigBrick = new Bricks(100,350,450, 100);
 		brick =new ArrayList<Bricks>();
 		for(int i = 50; i<maxWidth-50; i+=100){
@@ -53,15 +56,10 @@ public class GameOver {
 		
 		}
 	
-	/**
-	 * this uses playerinput to reset the game by reseting the lives score
-	 * it also resets score and then calls function for the first level from levelgenerator
-	 * @param gc
-	 * @param delta
-	 */
 
 	public static void applyPlayerInput(GameContainer gc, int delta) {
 		Input input = gc.getInput();	
+		//creates level when space is pressed
 		if(input.isKeyDown(Input.KEY_SPACE)){
 			SimpleSlickGame.lives = 4;
 			numberCounter.brickHit=0;
@@ -70,19 +68,16 @@ public class GameOver {
 	}
 
 
-	/**
-	 * This method renders all the bricks and also writes information about score and how to restart
-	 * @param gc
-	 * @param g
-	 * @throws SlickException
-	 */
+
 	
 	public static void render(GameContainer gc, Graphics g) throws SlickException
 	{
+		//renders bricks
 		for(Bricks b : brick){
 			g.setColor(Color.gray);
 			g.fill(b);
 		}
+		//renders visual for endgame screen
 		g.drawImage(endGame, 100, 100);
 		g.setColor(Color.darkGray);
 		g.fill(bigBrick);
