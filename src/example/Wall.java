@@ -15,13 +15,19 @@ public class Wall extends Rectangle implements ICollidableObject {
 	}
 
 	public Vector2f getBounceDirection(Ball ball) {
+		
+			
+		
 		Vector2f direction = ball.getDirection();
-		if (horizontal) {
+			
+		if (horizontal) {			
 			direction.y = -direction.y;
 		} else {
 			direction.x = -direction.x;
 		}
+			
 		return direction;
+		}
 	}
 
-}
+

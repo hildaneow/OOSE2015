@@ -22,6 +22,7 @@ import org.newdawn.slick.Sound;
 
 public class SimpleSlickGame extends BasicGame
 {
+	//public static int maxFPS = 60;
 
 	public static boolean gameJustStarted = true;
 	
@@ -41,6 +42,8 @@ public class SimpleSlickGame extends BasicGame
 	boolean ballIsDead = false;
 	
 	private int myMod = 0;
+	
+	public static boolean hasBounced = false;
 	
 	//make lists of differnt powerups
 	//extend bar:
@@ -422,18 +425,22 @@ public class SimpleSlickGame extends BasicGame
 	
 	public static void main(String[] args)
 	{
+		//new TimerForBug();
 		try
 		{
 			AppGameContainer appgc;
 			appgc = new AppGameContainer(new SimpleSlickGame("Simple Slick Game"));
 			appgc.setDisplayMode(maxWidth, maxHeight, false);
 			appgc.start();
+			//appgc.setTargetFrameRate(maxFPS);
 		}
 		catch (SlickException ex)
 		{
 			Logger.getLogger(SimpleSlickGame.class.getName()).log(Level.SEVERE, null, ex);
 		}
+	
 	}
+	
 
 }
 	
