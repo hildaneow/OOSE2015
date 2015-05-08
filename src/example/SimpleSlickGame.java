@@ -29,6 +29,10 @@ public class SimpleSlickGame extends BasicGame
 	public GameOver gameOver;
 	public LevelGenerator levelGenerator;
 	
+	public Wall LeftWall;
+	public Wall RightWall;
+	public Wall TopWall;
+	
 	private List <PlayerBar> playerBar;
 	private List<Wall> walls;
 	private Wall buttomLine;
@@ -74,7 +78,7 @@ public class SimpleSlickGame extends BasicGame
 		gameOver = new GameOver();
 		startScreen = new StartScreen();
 		startScreen.StartGame();
-		sound = new Sound("res/pew.wav");
+		sound = new Sound("res/ballSound.wav");
 		music = new Music("res/Hydrogen.wav");
 		music.play();
 		
@@ -96,10 +100,15 @@ public class SimpleSlickGame extends BasicGame
 		balls = new ArrayList<Ball>();
 		balls.add(new Ball((maxWidth -  ballRadius)/2, maxHeight-200, ballRadius));
 		
-		walls = new ArrayList<Wall>();
-		walls.add(new Wall(0f, 0f, 1f, maxHeight)); // left
-		walls.add(new Wall(maxWidth, 0f, 1f, maxHeight)); // right
-		walls.add(new Wall(0f, 0f, maxWidth, 1f)); // top
+		//walls = new ArrayList<Wall>();
+	//	walls.add(new Wall(0f, 0f, 1f, maxHeight)); // left
+		//walls.add(new Wall(maxWidth, 0f, 1f, maxHeight)); // right
+	//	walls.add(new Wall(0f, 0f, maxWidth, 1f)); // top
+		
+		LeftWall = new Wall(0f,0f,1f,maxHeight);
+		RightWall = new Wall(maxWidth, 0f, 10f, maxHeight);
+		TopWall = new Wall(0f,0f,maxWidth, 1f);
+		
 		buttomLine = new Wall(0f, maxHeight, maxWidth, 1f);
 	
 	}
@@ -252,16 +261,38 @@ public class SimpleSlickGame extends BasicGame
 		for(PlayerBar pb : playerBar){
 		for(Ball ba : balls){
 		if (pb.intersects(ba)) {
+			while(pb.intersects(ba)){
+				ba.setCenterY(ba.getCenterY()-(pb.getCenterY()-ba.getCenterY()));
+				
+			}
 			ba.collide(pb);
 		}	
 		else {
-			for (Wall w : walls) {
-				if (w.intersects(ba)){
-					ba.collide(w);
+			
+				if (LeftWall.intersects(ba)){
+					while(LeftWall.intersects(ba)){
+					ba.setCenterX(ba.getCenterX()+(LeftWall.getCenterX()+LeftWall.getCenterX()));
+					}
+					ba.collide(LeftWall);
+					break;
+				}
+				if (TopWall.intersects(ba)){
+					while(TopWall.intersects(ba)){
+						ba.setCenterY(ba.getCenterY()+(TopWall.getCenterY()+TopWall.getCenterY()));
+					}
+					ba.collide(TopWall);
+					break;
+				}
+				
+				if (RightWall.intersects(ba)){
+					System.out.println("righty");
+					while(RightWall.intersects(ba)){
+						ba.setCenterX(ba.getCenterX()-(RightWall.getCenterX()-ba.getCenterX()));
+					}
+					ba.collide(RightWall);
 					break;
 				}
 			}
-		}
 		}
 		}
 
