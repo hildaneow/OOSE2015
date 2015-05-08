@@ -10,13 +10,11 @@ public class PlayerBar extends Rectangle implements ICollidableObject {
 	private float velocity = 0.5f;
 
 	private float limit;
-	private float dwidth;
 	private float halfWidth;
 
 	public PlayerBar(float x, int y, float width, float height) {
 		super(x, y, width, height);
 		this.halfWidth = width/2;
-		dwidth = width;
 	}
 	
 	public void moveLeft(int delta) {
@@ -51,19 +49,19 @@ public class PlayerBar extends Rectangle implements ICollidableObject {
 	public static float extendBar(int delta, int buffTime){
 		SimpleSlickGame.bufferTime += delta;
 		if(SimpleSlickGame.bufferTime < buffTime){
-			return 140;
+			return 150;
 		}
 		SimpleSlickGame.bufferTime = 0;
-		return 70;
+		return 100;
 	}
 	
 	public static float SmallerBar(int delta, int buffTime){
 		SimpleSlickGame.bufferTime += delta;
 		if(SimpleSlickGame.bufferTime < buffTime){
-			return 35;
+			return 50;
 		}
 		SimpleSlickGame.bufferTime = 0;
-		return 70;
+		return 100;
 	}
 	
 	

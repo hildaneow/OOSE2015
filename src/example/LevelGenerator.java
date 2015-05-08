@@ -12,13 +12,12 @@ import org.newdawn.slick.SlickException;
 
 public class LevelGenerator {
 	
-
 	public static List<Bricks> brick;
 	public static List<Bricks> unBreackable;
 	private static int maxWidth = 640;
-	private static int maxHeight = 480;
+	//private static int maxHeight = 480;
 	public static int currentLevel = 0;
-	private static PlayerBar playerBar;
+	//private static PlayerBar playerBar;
 	
 	public static void init() {
 		brick =new ArrayList<Bricks>();
@@ -66,8 +65,6 @@ public class LevelGenerator {
 				}
 			}
 		}
-		
-		//playerBar = new PlayerBar((maxWidth -  SimpleSlickGame.width)/2, maxHeight-100, SimpleSlickGame.width, SimpleSlickGame.height);
 	}
 	
 	
@@ -82,8 +79,6 @@ public class LevelGenerator {
 			g.fill(b);
 		}
 	}
-	
-
 	
 	public static void newLevel() {
 		
