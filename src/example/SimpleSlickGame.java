@@ -32,10 +32,10 @@ public class SimpleSlickGame extends BasicGame
 	public StartScreen startScreen;
 	private static int maxWidth = 640;
 	private static int maxHeight = 480;
-	private PlayerBar playerBar;
+	private List <PlayerBar> playerBar;
 	private List<Wall> walls;
 	//private List<Bricks> brick2;
-	public static int lives = 4;
+	public static int lives = 0;
 	private int score;
 	private GameGUI GUI;
 	
@@ -65,8 +65,8 @@ public class SimpleSlickGame extends BasicGame
 	public static int bufferTime = 0;
 	public static int bufferTime2 = 0;
 
-	public float width = 70f;
-	public float height = 20f;
+	public static float width = 70f;
+	public static float height = 20f;
 	
 	float downTime = 4;
 	static int downT = 0;
@@ -89,8 +89,11 @@ public class SimpleSlickGame extends BasicGame
 		startScreen.StartGame();
 		sound = new Sound("res/pew.wav");
 		
-		playerBar = new PlayerBar((maxWidth -  width)/2, maxHeight-100, width, height);
-		playerBar.setHorizontalLimit(maxWidth);
+		playerBar= new ArrayList<PlayerBar>();
+		playerBar.add(new PlayerBar((maxWidth -  width)/2, maxHeight-100, width, height));
+		for(PlayerBar pb : playerBar){
+		pb.setHorizontalLimit(maxWidth);
+		}
 		
 		PUEB = new ArrayList<PowerUpExtendBar>();
 		PUSB = new ArrayList<PowerUpExtendBar>();
@@ -122,6 +125,7 @@ public class SimpleSlickGame extends BasicGame
 		walls.add(new Wall(0f, 0f, 1f, maxHeight)); // left
 		walls.add(new Wall(maxWidth, 0f, 1f, maxHeight)); // right
 		walls.add(new Wall(0f, 0f, maxWidth, 1f)); // top
+	
 		//walls.add(new Wall(0f, maxHeight, maxWidth, 1f)); // bottom
 	}
 	
@@ -136,6 +140,10 @@ public class SimpleSlickGame extends BasicGame
 		levelGenerator.newLevel();
 		}
 		if(lives < 1){
+			for(PlayerBar pb : playerBar){
+			pb.setWidth(70);
+			}
+			Ball.velocity=0.05f;
 			GameOver.applyPlayerInput(gc, delta);
 		}
 		
@@ -225,9 +233,10 @@ public class SimpleSlickGame extends BasicGame
 	
 	private void powerUpCollision(){
 		//remove PowerUp when it hits playerbar:
+		for(PlayerBar pb : playerBar){
 		for (Iterator<PowerUpExtendBar> it = PUEB.iterator(); it.hasNext(); ) {
 			PowerUpExtendBar p = it.next();
-		    if (p.intersects(playerBar)) {
+		    if (p.intersects(pb)) {
 		    	downT=1;
 		        it.remove();
 		        break;
@@ -235,7 +244,7 @@ public class SimpleSlickGame extends BasicGame
 		}
 		for (Iterator<PowerUpExtendBar> it = PUSB.iterator(); it.hasNext(); ) {
 			PowerUpExtendBar p = it.next();
-		    if (p.intersects(playerBar)) {
+		    if (p.intersects(pb)) {
 		    	downT=2;
 		        it.remove();
 		        break;
@@ -243,7 +252,7 @@ public class SimpleSlickGame extends BasicGame
 		}
 		for (Iterator<PowerUpExtendBar> it = PUNB.iterator(); it.hasNext(); ) {
 			PowerUpExtendBar p = it.next();
-		    if (p.intersects(playerBar)) {
+		    if (p.intersects(pb)) {
 		    	downT=3;
 		        it.remove();
 		        break;
@@ -251,7 +260,7 @@ public class SimpleSlickGame extends BasicGame
 		}
 		for (Iterator<PowerUpExtendBar> it = PUIS.iterator(); it.hasNext(); ) {
 			PowerUpExtendBar p = it.next();
-		    if (p.intersects(playerBar)) {
+		    if (p.intersects(pb)) {
 		    	downT=4;
 		        it.remove();
 		        break;
@@ -259,13 +268,13 @@ public class SimpleSlickGame extends BasicGame
 		}
 		for (Iterator<PowerUpExtendBar> it = PUDS.iterator(); it.hasNext(); ) {
 			PowerUpExtendBar p = it.next();
-		    if (p.intersects(playerBar)) {
+		    if (p.intersects(pb)) {
 		    	downT=5;
 		        it.remove();
 		        break;
 		    }
 		}
-		
+		}
 		
 	}
 	
@@ -275,22 +284,22 @@ public class SimpleSlickGame extends BasicGame
 		for (Iterator<Ball> it = balls.iterator(); it.hasNext(); ) {
 			Ball bo = it.next();
 		    if (bo.intersects(buttomLine)) {
-		    	lives--;
 		    	numberCounter.minusBallCount();
 		    	it.remove();
 		    	if(numberCounter.numberOfBalls == 0){
 		    		numberCounter.plusBallCount();
 		    		ballIsDead = true;
+		    		lives--;
 		    		
 		    	}
 		    	break;	
 		    }
 		}
 			
-		
+		for(PlayerBar pb : playerBar){
 		for(Ball ba : balls){
-		if (playerBar.intersects(ba)) {
-			ba.collide(playerBar);
+		if (pb.intersects(ba)) {
+			ba.collide(pb);
 		}
 		//else if (buttomLine.intersects(ba)){
 
@@ -304,8 +313,10 @@ public class SimpleSlickGame extends BasicGame
 			}
 		}
 		}
+		}
 
 //Make the playerbar normalsize after x time (sek now)... this should be moved!
+		for(PlayerBar pb : playerBar){
 		if(downT == 1){
 			width = PlayerBar.extendBar(delta, 5000);
 			if(width == 70){
@@ -319,7 +330,7 @@ public class SimpleSlickGame extends BasicGame
 			}
 		}
 		if(downT == 3){
-			balls.add(new Ball(playerBar.getX(),playerBar.getY(), ballRadius));
+			balls.add(new Ball(pb.getX(),pb.getY(), ballRadius));
 			numberCounter.plusBallCount();
 			//System.out.println(numberCounter.numberOfBalls);
 			downT = 0;
@@ -332,10 +343,12 @@ public class SimpleSlickGame extends BasicGame
 			Ball.velocity *=0.75f;
 			downT = 0;
 		}
+		}
 		
 		
+		for(PlayerBar pb : playerBar){
 		//update the position of objects if no intersection is detected:
-		playerBar.setWidth(width);
+		pb.setWidth(width);
 		//balls.updatePosition(delta);
 		for(Ball b : balls){
 			b.updatePosition(delta);
@@ -356,29 +369,34 @@ public class SimpleSlickGame extends BasicGame
 		for(PowerUpExtendBar p : PUDS){
 			p.updatePosition(delta);
 		}	
+		}
 		
 	}
 	
 	private void applyPlayerInput(GameContainer gc, int delta) {
 		Input input = gc.getInput();
+		for(PlayerBar pb : playerBar){
 		if (input.isKeyDown(Input.KEY_LEFT)){
-			playerBar.moveLeft(delta);
+			pb.moveLeft(delta);
 		} else if (input.isKeyDown(Input.KEY_RIGHT)) {
-			playerBar.moveRight(delta);
+			pb.moveRight(delta);
 		}
 		if (ballIsDead == true && input.isKeyDown(Input.KEY_SPACE)){
-		balls.add(new Ball(playerBar.getX(),playerBar.getY(), ballRadius));
+		balls.add(new Ball(pb.getX(),pb.getY(), ballRadius));
 		ballIsDead = false;
 		}
 		if (input.isKeyDown(Input.KEY_SPACE))
 		gameJustStarted = false;
 	}
+	}
 
 	@Override
 	public void render(GameContainer gc, Graphics g) throws SlickException
 	{
+		for(PlayerBar pb : playerBar){
 		g.setColor(Color.blue);
-		g.fill(playerBar);
+		g.fill(pb);
+		}
 
 		g.setColor(Color.white);
 		for(Ball b : balls){
